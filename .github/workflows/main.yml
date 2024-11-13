@@ -22,9 +22,8 @@ jobs:
 
     - name: Recompile using MCP
       run: |
-        cd MCP-919
         ./runtime/bin/python2.7 runtime/recompile.py
-
+        
     - name: Compress recompiled binaries
       run: |
         zip -r recompiled-minecraft.zip reobf/*
