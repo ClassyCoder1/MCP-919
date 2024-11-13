@@ -22,6 +22,7 @@ jobs:
 
     - name: Recompile using MCP
       run: |
+        chmod +x ./runtime/recompile.py
         ./runtime/recompile.py
         
     - name: Compress recompiled binaries
