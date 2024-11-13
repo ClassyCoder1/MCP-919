@@ -11,29 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Check out the repository code
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Set up JDK 8 for Minecraft 1.8.9
     - name: Set up JDK 8
       uses: actions/setup-java@v3
       with:
         java-version: 8
         distribution: 'temurin'
 
-    # Step 3: Recompile the code without re-obfuscating
     - name: Recompile using MCP
       run: |
-        cd MCP-919  # Navigate to the MCP folder
+        cd MCP-919
         ./runtime/bin/python2.7 runtime/recompile.py
 
-    # Step 4: Create a zip file of the recompiled binaries
     - name: Compress recompiled binaries
       run: |
         zip -r recompiled-minecraft.zip reobf/*
 
-    # Step 5: Upload the recompiled zip as a GitHub release
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
