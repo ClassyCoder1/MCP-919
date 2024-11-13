@@ -22,7 +22,7 @@ jobs:
 
     - name: Recompile using MCP
       run: |
-        ./runtime/bin/python2.7 runtime/recompile.py
+        ./runtime/recompile.py
         
     - name: Compress recompiled binaries
       run: |
