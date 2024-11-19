@@ -1,40 +1,31 @@
-name: Recompile and Release Minecraft 1.8.9 (MCP)
+name: Build MCP Mod
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  recompile-and-release:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 8
-      uses: actions/setup-java@v3
-      with:
-        java-version: 8
-        distribution: 'temurin'
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Recompile using MCP
-      run: |
-        chmod +x ./runtime/recompile.py
-        ./runtime/recompile.py
-        
-    - name: Compress recompiled binaries
-      run: |
-        zip -r recompiled-minecraft.zip reobf/*
+      - name: Recompile
+        run: python runtime/recompile.py
 
-    - name: Create GitHub Release
-      uses: ncipollo/release-action@v1
-      with:
-        tag: v1.8.9-recompiled
-        release_name: Minecraft 1.8.9 Recompiled
-        draft: false
-        prerelease: false
-        files: recompiled-minecraft.zip
-        
+      - name: Package Compiled Files
+        run: zip -r compiled-files.zip bin/
+
+      - name: Upload Compiled Files
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-files
+          path: compiled-files.zip
